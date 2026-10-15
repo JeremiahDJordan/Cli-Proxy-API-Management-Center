@@ -192,6 +192,45 @@
   }
 }
 
+/* Ledger-only geometry; keep plan badge assets below unchanged. */
+.ledgerBody {
+  > :not(.quotaRow) {
+    grid-column: 1 / -1;
+  }
+  .quotaRow {
+    display: grid;
+    align-content: start;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+  .quotaRowHeader,
+  .quotaMeta {
+    display: contents;
+  }
+  .quotaModel {
+    grid-area: 1 / 1;
+    padding-right: 40px;
+  }
+  .quotaPercent {
+    grid-area: 1 / 1;
+    justify-self: end;
+  }
+  .quotaBar {
+    grid-area: 2 / 1;
+  }
+  .quotaReset {
+    grid-area: 3 / 1;
+    font-size: 11px;
+  }
+  .quotaResetRelative {
+    grid-area: 4 / 1;
+    font-size: 11px;
+  }
+  .quotaResetRelative::before {
+    content: none;
+  }
+}
+
 /* ============================================================
  * 以下至文件末尾：套餐徽章定稿区块（逐字节搬迁，禁止改动）
  * ============================================================ */

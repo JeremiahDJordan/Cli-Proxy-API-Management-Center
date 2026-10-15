@@ -549,7 +549,6 @@
     "reset_confirm_button": "確認重置",
     "reset_not_confirmed": "尚未確認額度重置成功，請重新整理額度後再決定是否重試。",
     "reset_cooldown_failed": "額度已重置，但代理冷卻清除失敗。請在原連線的認證檔案頁面使用「清除冷卻」，不要再次消耗重置卡。",
-
     "reset_success": "已重置「{{name}}」的 Codex 配額",
     "reset_failed": "重置「{{name}}」的 Codex 配額失敗：{{message}}",
     "plan_plus": "Plus",
@@ -1651,7 +1650,17 @@
     "weekday_wed": "三",
     "weekday_thu": "四",
     "weekday_fri": "五",
-    "weekday_sat": "六"
+    "weekday_sat": "六",
+    "provider_overview": "Provider quota overview",
+    "weekly_summary": "Weekly quota",
+    "summary_capacity": "of {{count}}%",
+    "summary_unavailable": "Quota not loaded",
+    "summary_loaded": "{{count}} of {{total}} account quotas loaded",
+    "show_emails": "Show emails",
+    "hide_emails": "Hide emails",
+    "view_ledger": "Ledger",
+    "view_cards": "Cards",
+    "view_label": "Quota view"
   },
   "plugin_management": {
     "title": "插件管理",

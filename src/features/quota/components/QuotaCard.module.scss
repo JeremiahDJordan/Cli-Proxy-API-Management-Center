@@ -308,3 +308,54 @@
     animation: none;
   }
 }
+
+/* The screenshot-inspired ledger keeps the existing provider bodies and actions. */
+.ledger {
+  border: 0;
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 0;
+  background: transparent;
+  padding: 24px 0;
+  display: grid;
+  grid-template-columns: minmax(210px, 1fr) minmax(0, 3fr) 140px;
+  gap: 24px;
+  align-items: center;
+
+  &:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  .head {
+    align-self: start;
+    padding-top: 4px;
+  }
+  .fileName {
+    font-size: 14px;
+  }
+  .body {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .actionRow {
+    border: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}
+@media (max-width: 1100px) {
+  .ledger {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  .ledger .actionRow {
+    justify-content: flex-start;
+  }
+}
+@media (max-width: 600px) {
+  .ledger .body {
+    grid-template-columns: 1fr;
+  }
+}

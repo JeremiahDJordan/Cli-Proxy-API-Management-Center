@@ -1624,7 +1624,17 @@
     "weekday_wed": "Wed",
     "weekday_thu": "Thu",
     "weekday_fri": "Fri",
-    "weekday_sat": "Sat"
+    "weekday_sat": "Sat",
+    "provider_overview": "Provider quota overview",
+    "weekly_summary": "Weekly quota",
+    "summary_capacity": "of {{count}}%",
+    "summary_unavailable": "Quota not loaded",
+    "summary_loaded": "{{count}} of {{total}} account quotas loaded",
+    "show_emails": "Show emails",
+    "hide_emails": "Hide emails",
+    "view_ledger": "Ledger",
+    "view_cards": "Cards",
+    "view_label": "Quota view"
   },
   "plugin_management": {
     "title": "Plugin Management",

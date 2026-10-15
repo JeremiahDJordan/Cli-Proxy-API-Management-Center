@@ -21,6 +21,7 @@ import { isQuotaRefreshDisabled, type QuotaFileEntry } from '../logic';
 import { useClaudeResetGrants } from '../providers/claude/ClaudeResetGrants';
 import { ClaudeResetGrantDetails } from '../providers/claude/ClaudeResetGrantDetails';
 import { hasClaudeUsageData } from '../providers/claude/data';
+import { maskQuotaIdentity } from '../ledger';
 import bodyStyles from './QuotaBody.module.scss';
 import styles from './QuotaCard.module.scss';
 
@@ -29,6 +30,8 @@ const quotaClasses = bindQuotaClasses(bodyStyles, 'QuotaBody.module.scss');
 
 export type QuotaCardProps = {
   entry: QuotaFileEntry;
+  ledger?: boolean;
+  showEmails?: boolean;
   quota?: QuotaCardState;
   resolvedTheme: ResolvedTheme;
   canRefresh: boolean;
@@ -42,6 +45,8 @@ export type QuotaCardProps = {
 export function QuotaCard(props: QuotaCardProps) {
   const {
     entry,
+    ledger = false,
+    showEmails = false,
     quota,
     resolvedTheme,
     canRefresh,
@@ -55,7 +60,8 @@ export function QuotaCard(props: QuotaCardProps) {
   const file = entry.file;
   const retainedClaudeUsage =
     entry.type === 'claude' && hasClaudeUsageData(quota as ClaudeQuotaState | undefined);
-  const displayName = getQuotaDisplayName(file);
+  const rawDisplayName = getQuotaDisplayName(file);
+  const displayName = showEmails ? rawDisplayName : maskQuotaIdentity(rawDisplayName);
 
   // Capture the entrance delay only at mount, without a render-time ref read.
   const [mountEntranceDelayMs] = useState<number | null>(entranceDelayMs ?? null);
@@ -112,7 +118,7 @@ export function QuotaCard(props: QuotaCardProps) {
 
   return (
     <article
-      className={`${styles.card} ${mountEntranceDelayMs === null ? '' : styles.cardEnter}`}
+      className={`${styles.card} ${ledger ? styles.ledger : ''} ${mountEntranceDelayMs === null ? '' : styles.cardEnter}`}
       style={entranceStyle}
     >
       <header className={styles.head}>
@@ -136,7 +142,7 @@ export function QuotaCard(props: QuotaCardProps) {
         </span>
       </header>
 
-      <div className={styles.body}>
+      <div className={`${styles.body} ${ledger ? bodyStyles.ledgerBody : ''}`}>
         {status === 'idle' ? (
           <button
             type="button"
