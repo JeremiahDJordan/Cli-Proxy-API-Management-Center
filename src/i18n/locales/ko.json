@@ -1622,7 +1622,17 @@
     "weekday_wed": "수",
     "weekday_thu": "목",
     "weekday_fri": "금",
-    "weekday_sat": "토"
+    "weekday_sat": "토",
+    "provider_overview": "Provider quota overview",
+    "weekly_summary": "Weekly quota",
+    "summary_capacity": "of {{count}}%",
+    "summary_unavailable": "Quota not loaded",
+    "summary_loaded": "{{count}} of {{total}} account quotas loaded",
+    "show_emails": "Show emails",
+    "hide_emails": "Hide emails",
+    "view_ledger": "Ledger",
+    "view_cards": "Cards",
+    "view_label": "Quota view"
   },
   "plugin_management": {
     "title": "플러그인 관리",

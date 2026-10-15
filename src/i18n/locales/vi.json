@@ -1578,7 +1578,17 @@
     "search_placeholder": "Tìm theo tên file hoặc email",
     "search_empty_title": "Không có tài khoản phù hợp",
     "search_empty_desc": "Hãy thử tên file hoặc email khác, hoặc xóa tìm kiếm.",
-    "search_clear": "Xóa tìm kiếm"
+    "search_clear": "Xóa tìm kiếm",
+    "provider_overview": "Provider quota overview",
+    "weekly_summary": "Weekly quota",
+    "summary_capacity": "of {{count}}%",
+    "summary_unavailable": "Quota not loaded",
+    "summary_loaded": "{{count}} of {{total}} account quotas loaded",
+    "show_emails": "Show emails",
+    "hide_emails": "Hide emails",
+    "view_ledger": "Ledger",
+    "view_cards": "Cards",
+    "view_label": "Quota view"
   },
   "plugin_management": {
     "title": "Quản lý Plugin",

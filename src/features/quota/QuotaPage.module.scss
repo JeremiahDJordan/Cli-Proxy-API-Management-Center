@@ -218,3 +218,27 @@
     gap: 16px;
   }
 }
+
+.viewActions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.ledgerGroups {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+.groupTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 16px;
+  margin: 14px 0 0;
+}
+.groupTitle span {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-tertiary);
+}
