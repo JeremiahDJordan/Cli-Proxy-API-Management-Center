@@ -59,11 +59,6 @@ import styles from './QuotaPage.module.scss';
 const TAB_IDS: string[] = ['all', ...QUOTA_TAB_ORDER];
 const SKELETON_CARD_COUNT = 6;
 
-/**
- * Existing providers display filenames; Devin's card and timeline share an
- * identity-aware display label. Keep the filename fallback stable for memoization.
- */
-
 export function QuotaPage() {
   const { t } = useTranslation();
   const connectionStatus = useAuthStore((state) => state.connectionStatus);
@@ -330,9 +325,10 @@ export function QuotaPage() {
     return Math.round((index / (pageItems.length - 1)) * CARD_ENTRANCE_BUDGET_MS);
   };
 
-  const summaryTypes = entries.length
-    ? QUOTA_TAB_ORDER.filter((type) => entries.some((entry) => entry.type === type))
-    : (['claude', 'codex'] as const);
+  // Only subscription providers report weekly windows the overview can summarize.
+  const summaryTypes = (['claude', 'codex'] as const).filter(
+    (type) => !entries.length || entries.some((entry) => entry.type === type)
+  );
   const summaries = summaryTypes.map((type) => summarizeProvider(type, entries, getQuota));
   const renderCard = (entry: QuotaFileEntry, index: number) => (
     <QuotaCard

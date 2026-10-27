@@ -21,18 +21,13 @@ import { getQuotaMap, getQuotaSetter, type QuotaAdapter, type QuotaCardState } f
 const getQuotaState = (adapter: QuotaAdapter, file: AuthFileItem): QuotaCardState | undefined =>
   getQuotaMap(adapter)[getQuotaCacheKey(file)];
 
-const identityLabel = (name: string) => name;
-
 /**
  * `displayName` formats file names for notifications and confirmations only; API calls
  * and cache keys always use the raw name. Completion notifications read the latest
  * formatter, so hiding emails while a request is in flight still hides them; requests
  * that finish after the page unmounts (it remounts with emails hidden) show masked names.
  */
-export function useQuotaActions(
-  disableControls: boolean,
-  displayName: (name: string) => string = identityLabel
-) {
+export function useQuotaActions(disableControls: boolean, displayName: (name: string) => string) {
   const { t } = useTranslation();
   const showNotification = useNotificationStore((state) => state.showNotification);
   const showConfirmation = useNotificationStore((state) => state.showConfirmation);
@@ -82,7 +77,10 @@ export function useQuotaActions(
             [cacheKey]: adapter.buildErrorState(message, status),
           }));
           showNotification(
-            t('auth_files.quota_refresh_failed', { name: displayNameRef.current(file.name), message }),
+            t('auth_files.quota_refresh_failed', {
+              name: displayNameRef.current(file.name),
+              message,
+            }),
             'error'
           );
         });
@@ -102,7 +100,9 @@ export function useQuotaActions(
 
       showConfirmation({
         title: t('codex_quota.reset_confirm_title'),
-        message: t('codex_quota.reset_confirm_message', { name: displayName(file.name) }),
+        message: t('codex_quota.reset_confirm_message', {
+          name: displayNameRef.current(file.name),
+        }),
         confirmText: t('codex_quota.reset_confirm_button'),
         variant: 'primary',
         onConfirm: async () => {
@@ -135,7 +135,7 @@ export function useQuotaActions(
         },
       });
     },
-    [disableControls, displayName, resettingQuotaName, showConfirmation, showNotification, t]
+    [disableControls, resettingQuotaName, showConfirmation, showNotification, t]
   );
 
   return { resettingQuotaName, refreshQuota, resetQuota };

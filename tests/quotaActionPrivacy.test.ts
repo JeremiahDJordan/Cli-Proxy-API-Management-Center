@@ -13,11 +13,10 @@ const page = readFileSync(new URL('../src/features/quota/QuotaPage.tsx', import.
 describe('quota action privacy contract', () => {
   test('notifications and confirmations use the display-name formatter', () => {
     expect(hook).not.toMatch(/name: file\.name/);
-    // The confirmation is built at click time; the four completion notifications run after
-    // an await and must read the formatter current at that moment.
-    expect(hook.match(/name: displayName\(file\.name\)/g)?.length).toBe(1);
-    expect(hook).toMatch(/reset_confirm_message', \{ name: displayName\(file\.name\) \}/);
-    expect(hook.match(/name: displayNameRef\.current\(file\.name\)/g)?.length).toBe(4);
+    // Completion notifications run after an await and must read the formatter current at
+    // that moment; the confirmation reads the same ref.
+    expect(hook).not.toMatch(/name: displayName\(/);
+    expect(hook.match(/name: displayNameRef\.current\(file\.name\)/g)?.length).toBe(5);
   });
 
   test('the latest formatter replaces the one captured when a request started', () => {

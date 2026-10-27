@@ -3,6 +3,8 @@ import type { QuotaFileEntry } from './logic';
 import type { QuotaCardState } from './providers';
 import type { QuotaProviderType } from './providers/types';
 
+type SubscriptionProviderType = Extract<QuotaProviderType, 'claude' | 'codex'>;
+
 /** Hide identities in visible text, tooltips and the timeline until explicitly revealed. */
 export function maskQuotaIdentity(name: string): string {
   const extension = name.endsWith('.json') ? '.json' : '';
@@ -20,7 +22,7 @@ export function maskQuotaIdentity(name: string): string {
 }
 
 export interface ProviderSummary {
-  type: QuotaProviderType;
+  type: SubscriptionProviderType;
   count: number;
   loaded: number;
   remaining: number | null;
@@ -33,20 +35,14 @@ export interface ProviderSummary {
 
 /** Never treat unloaded, stale or missing quota as 100% available. */
 export function summarizeProvider(
-  type: QuotaProviderType,
+  type: SubscriptionProviderType,
   entries: QuotaFileEntry[],
   quotaFor: (entry: QuotaFileEntry) => QuotaCardState | undefined
 ): ProviderSummary {
   const matching = entries.filter((entry) => entry.type === type);
   const eligible = matching.map((entry) => {
     const state = quotaFor(entry);
-    if (
-      !state ||
-      state.status !== 'success' ||
-      entry.file.disabled ||
-      (type !== 'claude' && type !== 'codex')
-    )
-      return null;
+    if (!state || state.status !== 'success' || entry.file.disabled) return null;
     const quota = state as ClaudeQuotaState | CodexQuotaState;
     return 'stale' in quota && quota.stale ? null : quota;
   });
