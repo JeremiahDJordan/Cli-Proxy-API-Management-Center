@@ -80,7 +80,10 @@ export function QuotaPage() {
   const [search, setSearch] = useState('');
   const [ledger, setLedger] = useState(true);
   const [showEmails, setShowEmails] = useState(false);
-  const displayNameFor = (name: string) => (showEmails ? name : maskQuotaIdentity(name));
+  const displayNameFor = useCallback(
+    (name: string) => (showEmails ? name : maskQuotaIdentity(name)),
+    [showEmails]
+  );
   const searchInputRef = useRef<HTMLInputElement>(null);
   // 页头 + tabs 的入场级联（标题 → meta → 动作 → tabs，级差 70ms）
   const revealRef = useRevealGroup<HTMLDivElement>();
@@ -256,7 +259,10 @@ export function QuotaPage() {
   /* ---------- 加载与操作 ---------- */
 
   const { batchLoading, loadQuota } = useQuotaBatchLoader();
-  const { resettingQuotaName, refreshQuota, resetQuota } = useQuotaActions(disableControls);
+  const { resettingQuotaName, refreshQuota, resetQuota } = useQuotaActions(
+    disableControls,
+    displayNameFor
+  );
 
   const pendingRefreshRef = useRef<number | null>(null);
   const prevLoadingRef = useRef(loading);
