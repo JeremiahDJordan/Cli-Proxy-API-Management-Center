@@ -1,6 +1,7 @@
 # Fleet management dashboard
 
-Based on CPAMC v1.26.4; requires CLIProxyAPI v8. The quota route uses an
+Based on CPAMC v1.26.7 (branch `fleet`; the v1.26.4 version remains on `fleet-dashboard`);
+requires CLIProxyAPI v8. The quota route uses an
 independently implemented layout inspired by Theo's public video at 15:35:
 provider summaries, segmented quota bars, account ledger, provider tabs,
 reset countdowns, and an explicit email visibility toggle. Ledger is the initial
@@ -18,3 +19,9 @@ This reproduces visible interface behavior, not his private source or scheduler.
 The soonest-recovery control sorts the display; it does not change backend routing.
 
 Verify with `bun run verify`, then inspect management.html#/quota in a browser.
+
+Rebased 2026-10-26 onto v1.26.7. Upstream moved the Claude reset-grant details into
+the card's plan items; the conflict in `QuotaCard.tsx` kept upstream's structure and
+re-applied only the ledger body class. `bun run verify`: 1,660 tests passed, lint and
+build passed. The fleet proxy plugin's scheduler view
+(`/v0/management/fleet/status`) is not yet shown in this UI.
