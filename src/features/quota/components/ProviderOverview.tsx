@@ -1,9 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import { useNow } from '@/hooks/useNow';
-import { buildResetDisplay, formatQuotaResetTime } from '@/utils/quota';
+import { buildResetDisplay } from '@/utils/quota';
 import { getAuthFileIcon, getTypeLabel } from '@/features/authFiles/constants';
 import type { ResolvedTheme } from '@/types';
 import type { ProviderSummary } from '../ledger';
+import { quotaClasses } from './quotaClasses';
+import { QuotaMeter } from './QuotaMeter';
 import styles from './ProviderOverview.module.scss';
 
 export function ProviderOverview({
@@ -18,15 +20,7 @@ export function ProviderOverview({
   return (
     <section className={styles.overview} aria-label={t('quota_management.provider_overview')}>
       {summaries.map((summary) => {
-        const reset =
-          summary.resetAtMs === null
-            ? null
-            : buildResetDisplay(
-                formatQuotaResetTime(new Date(summary.resetAtMs).toISOString()),
-                summary.resetAtMs,
-                now,
-                i18n.resolvedLanguage
-              );
+        const reset = buildResetDisplay(null, summary.resetAtMs, now, i18n.resolvedLanguage);
         const icon = getAuthFileIcon(summary.type, resolvedTheme);
         return (
           <article className={styles.provider} key={summary.type}>
@@ -50,19 +44,7 @@ export function ProviderOverview({
             </div>
             <div className={styles.segments} aria-hidden="true">
               {(summary.segments.length ? summary.segments : [null]).map((value, index) => (
-                <span className={styles.track} key={index}>
-                  <span
-                    style={{
-                      width: `${value ?? 0}%`,
-                      background:
-                        value !== null && value >= 70
-                          ? 'var(--success-color)'
-                          : value !== null && value >= 30
-                            ? 'var(--quota-medium-color)'
-                            : 'var(--error-color)',
-                    }}
-                  />
-                </span>
+                <QuotaMeter key={index} percent={value} classes={quotaClasses} />
               ))}
             </div>
             <p className={styles.reset}>

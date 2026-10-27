@@ -58,17 +58,8 @@
   display: flex;
   gap: 5px;
 }
-.track {
+.segments > * {
   flex: 1;
-  height: 5px;
-  overflow: hidden;
-  border-radius: 9px;
-  background: var(--border-color);
-}
-.track > span {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
 }
 .reset {
   min-height: 18px;

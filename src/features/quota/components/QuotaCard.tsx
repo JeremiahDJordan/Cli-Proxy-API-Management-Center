@@ -15,7 +15,6 @@ import {
   getTypeLabel,
   isThemeSurfaceIconProvider,
 } from '@/features/authFiles/constants';
-import { bindQuotaClasses } from '../types';
 import { QUOTA_ADAPTERS, type QuotaCardState } from '../providers';
 import { isQuotaRefreshDisabled, type QuotaFileEntry } from '../logic';
 import { useClaudeResetGrants } from '../providers/claude/ClaudeResetGrants';
@@ -24,9 +23,7 @@ import { hasClaudeUsageData } from '../providers/claude/data';
 import { maskQuotaIdentity } from '../ledger';
 import bodyStyles from './QuotaBody.module.scss';
 import styles from './QuotaCard.module.scss';
-
-/** Bind the quota-page styles to the shared rendering contract. */
-const quotaClasses = bindQuotaClasses(bodyStyles, 'QuotaBody.module.scss');
+import { quotaClasses } from './quotaClasses';
 
 export type QuotaCardProps = {
   entry: QuotaFileEntry;
