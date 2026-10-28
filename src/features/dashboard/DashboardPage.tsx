@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -13,6 +13,8 @@ import { useAuthStore } from '@/stores';
 import { useHeaderRefresh } from '@/hooks/useHeaderRefresh';
 import { formatCompactNumber, formatDateValue, formatPercent } from '@/utils/format';
 import { useDashboardOverview } from './hooks/useDashboardOverview';
+import { useGatewayFleet } from './hooks/useGatewayFleet';
+import { GatewayPanels } from './components/GatewayPanels';
 import { LiveWire } from './components/LiveWire';
 import { Meter } from './components/Meter';
 import { Sparkline } from './components/Sparkline';
@@ -43,13 +45,21 @@ export function DashboardPage() {
   const { connectionStatus, connected, config, counts, traffic, providers, credentials, refresh } =
     useDashboardOverview();
 
-  useHeaderRefresh(refresh, connected);
+  const gateway = useGatewayFleet(connected);
+  const refreshGateway = gateway.refresh;
+
+  const refreshAll = useCallback(async () => {
+    await Promise.allSettled([refresh(), refreshGateway()]);
+  }, [refresh, refreshGateway]);
+
+  useHeaderRefresh(refreshAll, connected);
 
   /* Hero 与静态网格走分组级联；异步内容区（图表/供应商）保持整块 reveal */
   const heroRef = useRevealGroup<HTMLElement>();
   const statsRef = useRevealGroup<HTMLElement>(0.12);
   const trafficRef = useRevealOnScroll<HTMLElement>();
   const fleetRef = useRevealOnScroll<HTMLElement>();
+  const gatewayRef = useRevealOnScroll<HTMLElement>();
   const detailRef = useRevealGroup<HTMLElement>();
   const ctaRef = useRevealGroup<HTMLElement>();
 
@@ -403,6 +413,22 @@ export function DashboardPage() {
             </ul>
           )}
         </div>
+      </section>
+
+      {/* ---------- Gateway activity + gate denials ---------- */}
+      <section className={styles.section} ref={gatewayRef}>
+        <header className={styles.sectionHead}>
+          <span className={styles.eyebrow}>{t('dashboard.gateway_eyebrow')}</span>
+          <h2 className={styles.sectionTitle}>{t('dashboard.gateway_title')}</h2>
+          <p className={styles.sectionDescription}>{t('dashboard.gateway_description')}</p>
+        </header>
+        <GatewayPanels
+          connected={connected}
+          activity={gateway.activity}
+          gate={gateway.gate}
+          refreshing={gateway.refreshing}
+          onRefresh={() => void refreshGateway()}
+        />
       </section>
 
       {/* ---------- Credential health + runtime ---------- */}

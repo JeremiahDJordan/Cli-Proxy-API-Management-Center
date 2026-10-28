@@ -1,0 +1,138 @@
+@use '../../../styles/mixins' as *;
+
+.panelHeadRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $spacing-md;
+}
+
+.panelDescription {
+  margin: 2px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* Quiet is neutral, busy reuses the Live badge green, draining is amber */
+.levelBadge {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border-radius: $radius-full;
+  border: 1px solid var(--border-color);
+  font-family: $font-mono;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.levelDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.level_busy {
+  border-color: color-mix(in srgb, var(--viz-success) 35%, transparent);
+  background: color-mix(in srgb, var(--viz-success) 8%, transparent);
+  color: var(--success-badge-text);
+
+  .levelDot {
+    background: var(--viz-success);
+    animation: busyPing 2s ease-out infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+}
+
+.level_draining {
+  border-color: color-mix(in srgb, var(--amber-color) 40%, transparent);
+  background: color-mix(in srgb, var(--amber-color) 10%, transparent);
+  color: var(--amber-color);
+}
+
+.level_quiet {
+  background: color-mix(in srgb, var(--bg-secondary) 60%, transparent);
+}
+
+.totalFigure {
+  font-family: $font-mono;
+  font-size: 28px;
+  line-height: 1;
+  font-weight: 650;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.metaLine {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.staleNote {
+  margin: 0;
+  font-size: 12px;
+  color: var(--amber-color);
+}
+
+.denialTable {
+  font-size: 12px;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.code {
+  font-family: $font-mono;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.failedList {
+  margin: 0;
+  padding-left: 1.1em;
+  min-width: 220px;
+
+  li + li {
+    margin-top: 2px;
+  }
+}
+
+.client {
+  max-width: 280px;
+}
+
+.userAgent {
+  display: block;
+  font-family: $font-mono;
+  @include text-ellipsis;
+}
+
+.detail {
+  display: block;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  overflow-wrap: anywhere;
+}
+
+@keyframes busyPing {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--viz-success) 40%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 6px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}

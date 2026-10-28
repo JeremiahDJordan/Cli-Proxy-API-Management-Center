@@ -25,3 +25,12 @@ the card's plan items; the conflict in `QuotaCard.tsx` kept upstream's structure
 re-applied only the ledger body class. `bun run verify`: 1,660 tests passed, lint and
 build passed. The fleet proxy plugin's scheduler view
 (`/v0/management/fleet/status`) is not yet shown in this UI.
+
+The dashboard's Gateway section shows the fork's live activity
+(`/v0/management/fleet/activity`: requests, Responses WebSockets and turns in flight,
+quiet/busy/draining) and the gate part of `/v0/management/fleet/status`: denial totals by
+code and the last 50 denials (time, code, failed checks, provider/model, client user agent,
+route, request ID, before/after selection). Accounts, scheduler picks and key lists stay out
+of the UI; a client key appears only by its configured name. Both refresh every 15 s while
+the page is visible. A gateway without these routes (404/501) shows a muted note and is not
+polled again until a manual refresh.

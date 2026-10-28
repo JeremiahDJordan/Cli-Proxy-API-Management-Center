@@ -13,7 +13,7 @@ import {
   REQUEST_TIMEOUT_MS,
   VERSION_HEADER_KEYS,
 } from '@/utils/constants';
-import { computeApiUrl } from '@/utils/connection';
+import { computeApiUrl, normalizeApiBase } from '@/utils/connection';
 import { parseApiErrorResponse } from './apiError';
 
 class ApiClient {
@@ -63,6 +63,15 @@ class ApiClient {
     client.apiBase = this.apiBase;
     client.managementKey = this.managementKey;
     return client;
+  }
+
+  /**
+   * Absolute URL for a backend-declared route outside the v8 management prefix, such as a
+   * plugin's management route. Requests to it still go through this client's auth and events.
+   */
+  backendUrl(path: string): string {
+    const root = normalizeApiBase(this.apiBase);
+    return root ? `${root}${path}` : path;
   }
 
   private readHeader(headers: Record<string, unknown> | undefined, keys: string[]): string | null {
